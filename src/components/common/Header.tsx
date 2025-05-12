@@ -1,9 +1,13 @@
+'use client';
+
 import Image from 'next/image';
 import Logo from '@/../public/logo.svg';
 import Link from 'next/link';
+import NavLink from './NavLink';
 
 export default function Header() {
-  const isLoggedIn = false; // Replace with actual authentication logic
+  const isLoggedIn = false;
+
   return (
     <header className="flex items-center justify-between px-4">
       <Link href="/" className="flex items-center">
@@ -14,46 +18,21 @@ export default function Header() {
       </Link>
       <div className="flex lg:items-center lg:justify-center lg:gap-20 px-6 sm:gap-2">
         <span className="hidden md:flex gap-4">
-          <Link
-            href="/about"
-            className="text-md font-medium text-gray-700 hover:text-tealy"
-          >
-            About
-          </Link>
+          <NavLink href="/about">About</NavLink>
         </span>
         <span className="hidden md:flex gap-4">
-          <Link
-            href="/pricing"
-            className="text-md font-medium text-gray-700 hover:text-tealy"
-          >
-            Pricing
-          </Link>
+          <NavLink href="/pricing">Pricing</NavLink>
         </span>
         {isLoggedIn && (
           <span className="hidden md:flex gap-4">
-            <Link
-              href="/dashboard"
-              className="text-md font-medium text-gray-700 hover:text-tealy"
-            >
-              Your Summaries
-            </Link>
+            <NavLink href="/dashboard">Your Summaries</NavLink>
           </span>
         )}
         <span className="md:flex gap-4">
           {isLoggedIn ? (
-            <Link
-              href="/upload-pdf"
-              className="text-md font-medium text-gray-700 hover:text-tealy"
-            >
-              Upload PDF
-            </Link>
+            <NavLink href="/upload-pdf">Upload PDF</NavLink>
           ) : (
-            <Link
-              href="/sign-in"
-              className="text-md font-medium text-gray-700 hover:text-tealy"
-            >
-              Sign In
-            </Link>
+            <NavLink href="/sign-in">Sign In</NavLink>
           )}
         </span>
       </div>
