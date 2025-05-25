@@ -21,7 +21,7 @@ export default function Header() {
           <NavLink href="/about">About</NavLink>
         </span>
         <span className="hidden md:flex gap-4">
-          <NavLink href="/pricing">Pricing</NavLink>
+          <NavLink href="#pricing">Pricing</NavLink>
         </span>
         {isLoggedIn && (
           <span className="hidden md:flex gap-4">
