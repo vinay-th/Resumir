@@ -1,9 +1,7 @@
-'use client';
-
 import BgGradient from '@/components/common/BgGradient';
 import { Badge } from '@/components/ui/badge';
-import { FileUpload } from '@/components/ui/upload-file';
 import { Sparkles } from 'lucide-react';
+import UploadForm from '@/components/upload/UploadForm';
 import React from 'react';
 
 const Page = () => {
@@ -31,9 +29,7 @@ const Page = () => {
           <p className="text-lg text-gray-600">
             Upload your shyt and let AI do the rest
           </p>
-          <div className=" w-full max-w-3xl mx-auto bg-white rounded-3xl shadow-md transition-colors">
-            <FileUpload />
-          </div>
+          <UploadForm />
         </div>
       </div>
     </section>
