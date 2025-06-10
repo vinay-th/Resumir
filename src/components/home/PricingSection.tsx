@@ -41,12 +41,12 @@ const pricingPlans = [
 
 const PricingCard = () => {
   return (
-    <div className="relative w-full flex flex-col lg:flex-row  gap-6">
+    <div className="relative w-full flex flex-col lg:flex-row gap-6">
       {pricingPlans.map((plan) => (
         <div
           key={plan.id}
           className={cn(
-            'relative flex flex-col gap-4 lg:gap-8 w-full z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl',
+            'relative flex flex-col gap-4 lg:gap-8 w-full z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl hover:scale-105 hover:transition-all duration-300 ease-in-out',
             plan.id === 'pro' && 'border-tealy gap-5 border-2'
           )}
         >
@@ -110,7 +110,7 @@ const PricingSection = () => {
             Pricing
           </h2>
         </div>
-        <div className="relative flex flex-col items-center justify-center lg:flex-row lg:items-stretch gap-8">
+        <div className="relative flex flex-col items-center justify-center lg:flex-row lg:items-stretch gap-8 p-4">
           <PricingCard />
         </div>
       </div>

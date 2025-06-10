@@ -4,10 +4,15 @@ import Image from 'next/image';
 import Logo from '@/../public/logo.svg';
 import Link from 'next/link';
 import NavLink from './NavLink';
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from '@clerk/nextjs';
 
 export default function Header() {
-  const isLoggedIn = false;
-
   return (
     <header className="flex items-center justify-between px-4">
       <Link href="/" className="flex items-center">
@@ -23,18 +28,23 @@ export default function Header() {
         <span className="hidden md:flex gap-4">
           <NavLink href="#pricing">Pricing</NavLink>
         </span>
-        {isLoggedIn && (
+        <SignedIn>
           <span className="hidden md:flex gap-4">
             <NavLink href="/dashboard">Your Summaries</NavLink>
           </span>
-        )}
-        <span className="md:flex gap-4">
-          {isLoggedIn ? (
+          <span className="hidden md:flex gap-4">
             <NavLink href="/upload-pdf">Upload PDF</NavLink>
-          ) : (
-            <NavLink href="/sign-in">Sign In</NavLink>
-          )}
-        </span>
+          </span>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <SignInButton>
+            <span className="hidden md:flex gap-4 cursor-pointer">Sign In</span>
+          </SignInButton>
+          <SignUpButton>
+            <span className="hidden md:flex gap-4 cursor-pointer">Sign Up</span>
+          </SignUpButton>
+        </SignedOut>
       </div>
     </header>
   );
