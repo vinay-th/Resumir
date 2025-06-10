@@ -33,7 +33,7 @@ export default function Header() {
             <NavLink href="/dashboard">Your Summaries</NavLink>
           </span>
           <span className="hidden md:flex gap-4">
-            <NavLink href="/upload-pdf">Upload PDF</NavLink>
+            <NavLink href="/upload">Upload PDF</NavLink>
           </span>
           <UserButton />
         </SignedIn>
