@@ -60,10 +60,12 @@ export const FileUpload = ({
       >
         <input
           ref={fileInputRef}
-          id="file-upload-handle"
+          id="file"
+          name="file"
           type="file"
           onChange={(e) => handleFileChange(Array.from(e.target.files || []))}
           className="hidden"
+          accept="application/pdf"
         />
         <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
           <GridPattern />
