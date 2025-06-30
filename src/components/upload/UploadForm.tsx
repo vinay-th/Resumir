@@ -2,7 +2,11 @@
 
 import React from 'react';
 import UploadFormElements from './UploadFormElements';
+import { toast } from 'sonner';
 import { z } from 'zod';
+import { useUploadThing } from '@/lib/uploadthing';
+import { generatePdfSummary } from '../../../actions/upload-actions';
+import main from '@/lib/gemini';
 
 const schema = z.object({
   file: z
@@ -18,8 +22,18 @@ const schema = z.object({
 });
 
 const UploadForm = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
+    onClientUploadComplete: () => {
+      toast.success('Upload completed successfully');
+    },
+    onUploadError: () => {
+      toast.error('Error occurred while uploading');
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // Schema validation
     const formData = new FormData(e.currentTarget);
     const file = formData.get('file') as File;
 
@@ -35,8 +49,28 @@ const UploadForm = () => {
       return;
     }
 
-    console.log('Form submitted');
+    // UploadThing upload
+    toast.info('Starting upload...');
+
+    const resp = await startUpload([file]);
+
+    if (!resp) {
+      console.error('Upload failed');
+      return;
+    }
+
+    // PDF Loader integration
+    const pdfResult = await generatePdfSummary(resp);
+
+    const { data = null, message = '' } = pdfResult || {};
+
+    if (data) {
+      console.log('PDF Summary:', data.summary);
+    } else {
+      toast.error(message);
+    }
   };
+
   return (
     <div className="w-full flex flex-col">
       <UploadFormElements onSubmit={handleSubmit} />
