@@ -22,16 +22,22 @@ const schema = z.object({
 });
 
 const UploadForm = () => {
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
     onClientUploadComplete: () => {
       toast.success('Upload completed successfully');
+      formRef.current?.reset();
     },
     onUploadError: () => {
+      formRef.current?.reset();
       toast.error('Error occurred while uploading');
     },
   });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
     e.preventDefault();
     // Schema validation
     const formData = new FormData(e.currentTarget);
@@ -39,12 +45,15 @@ const UploadForm = () => {
 
     if (!file) {
       console.error('No file selected');
+      setIsLoading(false);
       return;
     }
 
     const result = schema.safeParse({ file });
 
     if (!result.success) {
+      formRef.current?.reset();
+      setIsLoading(false);
       console.error('Validation failed:', result.error.errors);
       return;
     }
@@ -55,6 +64,8 @@ const UploadForm = () => {
     const resp = await startUpload([file]);
 
     if (!resp) {
+      formRef.current?.reset();
+      setIsLoading(false);
       console.error('Upload failed');
       return;
     }
@@ -66,14 +77,26 @@ const UploadForm = () => {
 
     if (data) {
       console.log('PDF Summary:', data.summary);
+
+      toast.success('PDF summary generated successfully');
+
+      setIsLoading(false);
+
+      formRef.current?.reset();
     } else {
+      setIsLoading(false);
+      formRef.current?.reset();
       toast.error(message);
     }
   };
 
   return (
     <div className="w-full flex flex-col">
-      <UploadFormElements onSubmit={handleSubmit} />
+      <UploadFormElements
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+        ref={formRef}
+      />
     </div>
   );
 };

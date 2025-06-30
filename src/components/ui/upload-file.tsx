@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { IconUpload } from '@tabler/icons-react';
 import { useDropzone } from 'react-dropzone';
+import { LuCircleX } from 'react-icons/lu';
 
 const mainVariant = {
   initial: {
@@ -34,8 +35,11 @@ export const FileUpload = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (newFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    onChange && onChange(newFiles);
+    setFiles((prevFiles) => {
+      const updated = [...prevFiles, ...newFiles];
+      onChange?.(updated);
+      return updated;
+    });
   };
 
   const handleClick = () => {
@@ -88,6 +92,21 @@ export const FileUpload = ({
                     'shadow-sm'
                   )}
                 >
+                  {/* ❌ Delete Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFiles((prev) => {
+                        const updated = prev.filter((_, i) => i !== idx);
+                        onChange?.(updated);
+                        return updated;
+                      });
+                    }}
+                    className="absolute top-1 right-1 z-50 text-neutral-400 hover:text-red-500 transition-colors bg-transparent"
+                  >
+                    <LuCircleX className="w-5 h-5" />
+                  </button>
+
                   <div className="flex justify-between w-full items-center gap-4">
                     <motion.p
                       initial={{ opacity: 0 }}
@@ -128,6 +147,7 @@ export const FileUpload = ({
                   </div>
                 </motion.div>
               ))}
+
             {!files.length && (
               <motion.div
                 layoutId="file-upload"
