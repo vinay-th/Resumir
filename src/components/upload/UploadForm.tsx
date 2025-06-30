@@ -28,6 +28,7 @@ const UploadForm = () => {
   const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
     onClientUploadComplete: () => {
       toast.success('Upload completed successfully');
+      toast.info('Generating PDF summary...');
       formRef.current?.reset();
     },
     onUploadError: () => {
